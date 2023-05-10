@@ -1,0 +1,108 @@
+/* Make multiple css files */
+/* Make comments */
+
+*
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* placed in body?*/
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /* To be changed */
+}
+
+.container
+{
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: black; /* Taken away ? */
+  overflow: hidden;
+}
+
+.tabs input
+{
+  visibility: hidden; /* Taken away ?*/
+  display: none;
+}
+
+.buttons
+{
+  display: flex;
+  position: absolute;
+  bottom: 50px; /* Changed */
+  left: 50%; /* Changed ?*/
+  transform: translateX(-50%);
+  gap:10px; /* Changed, maybe margin? */
+  z-index: 10;
+}
+
+/* Change these properties */
+.buttons label
+{
+  background: #fff;
+  margin: 20px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+/* Modify this at my sauce, change color and make id's in html as #first:checked */
+.tabs #web:checked ~ .buttons label[for="web"],
+.tabs #graphics:checked ~ .buttons label[for="graphics"],
+.tabs #photography:checked ~ .buttons label[for="photography"]
+{
+  opacity: 1;
+  scale: 2;
+}
+
+.content
+{
+  display: flex;
+  position: relative;
+  width: 300vw;
+  transition: 0.5s;
+}
+
+.content .Login,
+.content .Calculator,
+.content .Others
+{
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  user-select: none; /* Check this */
+  width: 100vw;
+  height: 100vh;
+  padding: 40px; /* Maybe change this */
+}
+
+/* Modify this part for the background and change names of divs elements in html*/
+.content .Login
+{
+  background: linear-gradient(90deg, lightgreen, darkblue);
+}
+.content .Calculator
+{
+  background: linear-gradient(90deg, pink, red);
+}
+.content .Others
+{
+  background: linear-gradient(90deg, purple, black);
+}
+
+/* Modify this part with the new html id's name */
+.tabs #web:checked ~ .content
+{
+  left: 0;
+}
+.tabs #graphics:checked ~ .content
+{
+  left: -100vw;
+}
+.tabs #photography:checked ~ .content
+{
+  left: -200vw;
+}
