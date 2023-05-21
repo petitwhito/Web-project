@@ -1,12 +1,14 @@
 /* Make multiple css files */
 /* Make comments */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:200,,300,400,500,600,700,800,900&display=swap');
+
 
 *
 {
   margin: 0;
   padding: 0;
   box-sizing: border-box; /* placed in body?*/
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /* To be changed */
+  font-family:'Poppins', sans-serif;
 }
 
 .container
@@ -18,17 +20,23 @@
   overflow: hidden;
 }
 
-.tabs input
+.tabs input:not(#calc)
 {
   visibility: hidden; /* Taken away ?*/
   display: none;
+}
+
+.tabs .Login input
+{
+  visibility: visible !important;
+  display: block !important;
 }
 
 .buttons
 {
   display: flex;
   position: absolute;
-  bottom: 50px; /* Changed */
+  bottom: 15px; /* Changed */
   left: 50%; /* Changed ?*/
   transform: translateX(-50%);
   gap:10px; /* Changed, maybe margin? */
@@ -65,8 +73,8 @@
   transition: 0.5s;
 }
 
-.content .Login,
-.content .Calculator,
+
+.content .Calculator-Section,
 .content .Others
 {
   display: flex;
@@ -79,14 +87,81 @@
   padding: 40px; /* Maybe change this */
 }
 
-/* Modify this part for the background and change names of divs elements in html*/
 .content .Login
 {
-  background: linear-gradient(90deg, lightgreen, darkblue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  transition: 0.5s;
+  background: #0c192c;
 }
-.content .Calculator
+
+.LoginSystem
 {
-  background: linear-gradient(90deg, pink, red);
+  position: relative;
+  width: 800px;
+  height: 500px;
+  margin:20px;
+}
+
+.blueBg
+{
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  height: 420px;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 45px rgba(0,0,0,0.15);
+}
+
+.bubbles
+{
+  position: absolute;
+  display:flex;
+  user-select: none; /* Check this */
+  height: 100vh;
+}
+
+.bubbles span
+{
+  position: relative;
+  width: 60px;
+  height:60px;
+  background: #4fc3dc;
+  margin: 0 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 10px #4fc3dc44,
+  0 0 50px #4fc3dc,
+  0 0 100px #4fc3dc;
+  animation: animate 15s linear infinite;
+  animation-duration: calc(125s / var(--i));
+}
+
+.bubbles span:nth-child(even)
+{
+  background: #6dee0a;
+  box-shadow: 0 0 0 10px #6dee0a44,
+  0 0 50px #6dee0a,
+  0 0 100px #6dee0a;
+}
+
+@keyframes animate {
+  0%
+  {
+    transform: translateY(100vh) scale(0);
+  }
+  100%
+  {
+    transform: translateY(-10vh) scale(1);
+  }
+}
+
+/* Modify this part for the background and change names of divs elements in html*/
+.content .Calculator-Section
+{
+  background: #0c192c;
 }
 .content .Others
 {
@@ -105,4 +180,56 @@
 .tabs #photography:checked ~ .content
 {
   left: -200vw;
+}
+
+.Calculator
+{
+  z-index: 0;
+  border: 1px solid #717377;
+  padding: 20px;
+  border-radius: 16px;
+  background: linear-gradient(45deg, #0a0a0a, #3a4452);
+  box-shadow: 0px 3px 15px rgba(113, 115, 119, 0.5);
+  margin-bottom: 50px;
+}
+
+#calc
+{
+  width: 320px;
+  border: none;
+  padding: 24px;
+  margin: 10px;
+  background: transparent;
+  box-shadow: 0px 3px 15px rgbs(84, 84, 84, 0.1);
+  font-size: 40px;
+  text-align: right;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+#calc::placeholder
+{
+  color: #ffffff;
+}
+
+.Calculator button
+{
+  border: none;
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  border-radius: 50%;
+  background: transparent;
+  color: #ffffff;
+  font-size: 20px;
+  box-shadow: -8px -8px 15px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.equalBtn{
+  background-color: #4fc3dc !important;
+}
+
+.operator{
+  color: #6dee0a !important;
 }
