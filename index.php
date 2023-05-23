@@ -2,6 +2,86 @@
 session_start();
 
   $_SESSION;
+  include("connection.php");
+  include("functions.php");
+
+  $user_data = check_login($con);
+  if ($_SERVER['REQUEST_METHOD'] == "POST")
+  {
+
+    $section = $_POST["section"];
+
+
+    if ($section === "login") 
+    {
+      $user_name = $_POST['user_name'];
+      $password = $_POST['password'];
+      if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
+		  {
+			  //read from database
+			  $query = "select * from users where user_name = '$user_name' limit 1";
+			  $result = mysqli_query($con, $query);
+        
+			  if($result)
+			  {
+				  if($result && mysqli_num_rows($result) > 0)
+				  {
+					  $user_data = mysqli_fetch_assoc($result);
+
+					  if($user_data['password'] === $password)
+					  {
+						  $_SESSION['user_id'] = $user_data['user_id'];
+              // Send to other file Welcome
+						  header("Location: welcome.php");
+					  }
+            else
+            {
+              //Not good Password !
+            }
+				  }
+			  }
+			
+		  }
+      else
+		  {
+			  echo "wrong username or password!";
+		  }
+    } 
+
+      
+    else if($section === "signin")
+    {
+      $user_name = $_POST['user_name'];
+      $password = $_POST['password'];
+
+      //Must have different name
+      $query = "SELECT * FROM users WHERE user_name = '$user_name'";
+      $result = mysqli_query($con, $query);
+
+      if ($result && mysqli_num_rows($result) > 0) 
+      {
+        //Display "Someone already chose that username"
+      }
+      else
+      {
+        if(!empty($user_name) && !empty($password) && !is_numeric($user_name) )
+        {
+          $user_id = rand_num(20);
+          $query = "insert into users (user_id,user_name,password) values ('$user_id','$user_name','$password')";
+
+          mysqli_query($con, $query);
+
+          //Once they are registred --> Send them to welcome ?
+        }
+        else
+        {
+          //Change this !
+          echo "Please enter some valid information!";
+        }
+      }
+    }
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -28,8 +108,8 @@ session_start();
       <div class="content">
 
         <div class="Login">
-          <!--Login and History-->
           <div class="LoginSystem">
+
             <div class="blueBg">
 
               <div class="box signin">
@@ -41,8 +121,39 @@ session_start();
                 <h2>Don't Have an Account?</h2>
                 <button class="signupBtn">Sign up</button>
               </div>
-              
+
             </div>
+
+            <div class="formBx">
+              <div class="form signinform">
+
+                <form method="post">
+                  <h3>Sign In</h3>
+                  <input type="text" name="user_name" placeholder="Username">
+                  <input type="password" name="password" placeholder="Password">
+                  <input type="hidden" name="section" value="signin">
+                  <!-- The login button -->
+                  <input type="submit" value="Login">
+                  <p class="wrong">Wrong username or password!</p>
+                </form>
+
+              </div>
+              <div class="form signupform">
+
+                <form method="post">
+                  <h3>Sign Up</h3>
+                  <input type="text" name="user_name" placeholder="Username">
+                  <input type="password" name="password" placeholder="Password">
+                  <input type="hidden" name="section" value="login">
+                  <!-- The login button -->
+                  <input type="submit" value="Register">
+                  <p class="already">Someone already chose this username!</p>
+                  <p class="invalid">Wrong username or password</p>
+                </form>
+                
+              </div>
+            </div>
+
           </div>
         </div>
 

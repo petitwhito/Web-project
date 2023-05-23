@@ -1,3 +1,20 @@
+const signinBtn = document.querySelector('.signinBtn');
+const signupBtn = document.querySelector('.signupBtn');
+const formBx = document.querySelector('.formBx');
+const login = document.querySelector('.Login');
+
+signupBtn.onclick = function(){
+    formBx.classList.add('active');
+    login.classList.add('active');
+}
+
+signinBtn.onclick = function(){
+    formBx.classList.remove('active');
+    login.classList.remove('active');
+}
+
+/* Calculator part */
+
 let input = document.getElementById('calc');
 let buttons = document.querySelectorAll('button');
 
@@ -10,6 +27,11 @@ arr.forEach(button => {
         if(e.target.innerHTML == '='){
             string = eval(string);
             input.value = string;
+        }
+
+        else if(e.target.innerHTML == 'Sign in' || e.target.innerHTML == 'Sign up')
+        {
+            string="";
         }
 
         else if(e.target.innerHTML == 'AC'){
