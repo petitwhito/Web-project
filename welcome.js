@@ -1,19 +1,3 @@
-/* Calculator Background effect */
-
-const signinBtn = document.querySelector('.signinBtn');
-const signupBtn = document.querySelector('.signupBtn');
-const formBx = document.querySelector('.formBx');
-const login = document.querySelector('.Login');
-
-signupBtn.onclick = function(){
-    formBx.classList.add('active');
-    login.classList.add('active');
-}
-
-signinBtn.onclick = function(){
-    formBx.classList.remove('active');
-    login.classList.remove('active');
-}
 
 /* Calculator part */
 
@@ -22,12 +6,29 @@ let buttons = document.querySelectorAll('button');
 
 
 let string = "";
+let keep = "";
 let arr = Array.from(buttons);
 arr.forEach(button => {
     button.addEventListener('click', (e) =>{
-        if(e.target.innerHTML == '='){
-            string = eval(string);
-            input.value = string;
+        if(e.target.innerHTML == '=')
+        {
+          keep = input.value;
+          string = eval(string);
+          input.value = string;
+
+          var data = new FormData();
+          data.append('operation', keep);
+          data.append('result', parseInt(string));
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'welcome.php', true);
+          xhr.onreadystatechange = function() 
+          {
+            if (xhr.readyState === 4 && xhr.status === 200) 
+            {
+              console.log(xhr.responseText);
+            }
+          };
+          xhr.send(data);
         }
         else if(e.target.innerHTML == 'Sign in' || e.target.innerHTML == 'Sign up' || e.target.innerHTML == 'Calculate')
         {
@@ -71,7 +72,6 @@ arr.forEach(button => {
 
 document.getElementById('calculateBtn').addEventListener('click', function() {
     var expression = document.getElementById('exp').value;
-    console.log(expression);
 
     // Make API call to Math.js
     fetch('https://api.mathjs.org/v4/', {

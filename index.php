@@ -1,9 +1,16 @@
+<script>
+
 <?php 
 session_start();
 
   $_SESSION;
   include("connection.php");
   include("functions.php");
+
+  $error_password = "";
+  $error_invalid = "";
+  $error_already = "";
+  $Success = "";
 
   $user_data = check_login($con);
   if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -36,15 +43,17 @@ session_start();
 					  }
             else
             {
-              //Not good Password !
+              $error_password = "Incorrect input! Please try again."; //Wrong password
             }
 				  }
 			  }
+
+        $error_password = "wrong username or password!";
 			
 		  }
       else
 		  {
-			  echo "wrong username or password!";
+			  $error_password = "wrong username or password!";
 		  }
     } 
 
@@ -60,7 +69,7 @@ session_start();
 
       if ($result && mysqli_num_rows($result) > 0) 
       {
-        //Display "Someone already chose that username"
+        $error_already = "Incorrect input! Please try again."; //Already
       }
       else
       {
@@ -70,19 +79,19 @@ session_start();
           $query = "insert into users (user_id,user_name,password) values ('$user_id','$user_name','$password')";
 
           mysqli_query($con, $query);
-
-          //Once they are registred --> Send them to welcome ?
+          $Success = "yes";
         }
         else
         {
-          //Change this !
-          echo "Please enter some valid information!";
+          $error_invalid = "Incorrect input! Please try again."; //Valid
         }
       }
     }
   }
 
 ?>
+
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -134,7 +143,15 @@ session_start();
                   <input type="hidden" name="section" value="signin">
                   <!-- The login button -->
                   <input type="submit" value="Login">
-                  <p class="wrong">Wrong username or password!</p>
+                  <?php if (!empty($error_already)) : ?>
+                    <p class="already">Someone already chose this username!</p>
+                  <?php endif; ?>
+                  <?php if (!empty($error_invalid)) : ?>
+                    <p class="invalid">Please enter some valid information!</p>
+                  <?php endif; ?>
+                  <?php if (!empty($Success)) : ?>
+                    <p class="success">Successfully Registered!</p>
+                  <?php endif; ?>
                 </form>
 
               </div>
@@ -147,8 +164,9 @@ session_start();
                   <input type="hidden" name="section" value="login">
                   <!-- The login button -->
                   <input type="submit" value="Register">
-                  <p class="already">Someone already chose this username!</p>
-                  <p class="invalid">Wrong username or password</p>
+                  <?php if (!empty($error_password)) : ?>
+                    <p class="wrong">Wrong username or password!</p>
+                  <?php endif; ?>
                 </form>
                 
               </div>
@@ -183,31 +201,36 @@ session_start();
           <div class="Calculator">
           <!--Calculator-->
             <input type="text" id="calc" placeholder="0">
-            <div>
+            <div> 
+              <button class="button operator">(</button>
               <button class="button operator">AC</button>
               <button class="button operator">DEL</button>
               <button class="button operator">%</button>
               <button class="button operator">/</button>
             </div>
             <div>
+              <button class="button operator">)</button>
               <button class="button">7</button>
               <button class="button">8</button>
               <button class="button">9</button>
               <button class="button operator">*</button>
             </div>
             <div>
+              <button class="button operator">√</button>
               <button class="button">4</button>
               <button class="button">5</button>
               <button class="button">6</button>
               <button class="button operator">-</button>
             </div>
             <div>
+              <button class="button operator">ln</button>
               <button class="button">1</button>
               <button class="button">2</button>
               <button class="button">3</button>
               <button class="button operator">+</button>
             </div>
             <div>
+              <button class="button operator">π</button>
               <button class="button">00</button>
               <button class="button">0</button>
               <button class="button">.</button>
@@ -218,7 +241,16 @@ session_start();
 
         <div class="Others">
           <!--Other Operations-->
-            <h2>Other operations</h2>
+          <!--<h1>Math.js API Example</h1>-->
+          <h1>Calculate an expression</h1>
+          <br>
+          <br>
+          <div class="box">
+            <input type="text" id="exp" placeholder="input expression">
+            <button type="submit "id="calculateBtn">Calculate</button>
+          </div>
+            <br><br>
+            <div id="result"></div>
         </div>
 
       </div>
