@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 	$user_data['operation'] = $operation;
 	$user_data['result'] = $result;
 	
-
 	$escapedOperation = mysqli_real_escape_string($con, $operation);
 	$escapedResult = mysqli_real_escape_string($con, $result);
 

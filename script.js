@@ -1,4 +1,4 @@
-/* Calculator Background effect */
+/* Login effects */
 
 const signinBtn = document.querySelector('.signinBtn');
 const signupBtn = document.querySelector('.signupBtn');
@@ -19,7 +19,6 @@ signinBtn.onclick = function(){
 
 let input = document.getElementById('calc');
 let buttons = document.querySelectorAll('button');
-
 
 let string = "";
 let arr = Array.from(buttons);
